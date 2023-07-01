@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Terminal Web</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: monospace;
+            overflow-y: hidden;
+            font-size: xx-large;
+        }
+
+        #console {
+            width: 60%;
+            height: 60%;
+            min-height: 300px;
+            background-color: #222;
+            color: green;
+            padding: 10px;
+            overflow-y: auto;
+            word-wrap: break-word;
+        }
+
+        @media (max-width: 600px) {
+            #console {
+                width: 90%;
+                height: 90%;
+                font-size: x-large;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="console"></div>
+
+    <script>
+        function writeToConsole(text) {
+            var consoleDiv = document.getElementById('console');
+            consoleDiv.innerHTML += text;
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        function typeText(text, delay) {
+            return new Promise((resolve) => {
+                let index = 0;
+                const interval = setInterval(() => {
+                    if (text.charAt(index) === '\n') {
+                        writeToConsole('<br>');
+                    } else {
+                        writeToConsole(text.charAt(index));
+                    }
+                    index++;
+                    if (index >= text.length) {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, delay);
+            });
+        }
+
+        function decodeToken() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            const decodedToken = atob(token);
+            return decodedToken;
+        }
+
+        async function simulateTerminal() {
+            const name = decodeToken();
+            const welcomeText = `Hola bienvenid@ ${name}!\nEstás listo para jugar?`;
+            await typeText(welcomeText, 50);
+
+            const answerOptions = 'Si o No';
+            await typeText(`[${answerOptions}]: `);
+
+            const userInput = await getUserInput();
+            const answer = userInput.toLowerCase();
+            if (answer === 'si') {
+                await typeText(" Si\n\n")
+                await typeText('¡Alas de fuego y varitas mágicas! Parece que has elegido "Sí". Prepárate para utilizar tus habilidades de investigación  y desentrañar el enigma que se presenta ante ti, como si fueras una Sherlock Holmes del siglo XXI.\n\n');
+            } else if (answer === 'no') {
+                await typeText(" No\n\n")
+                await typeText(`¡Un 'No, no, no, no, no' al estilo de Homero Simpson! Pero como cuando dice 'Bueno, sí' xD.\n`);
+            }
+
+            await typeText('El Reto:\n\n');
+            await typeText('Investigar qué es y encontrar la forma de leerlo:\n\n');
+            
+            await typeText('\noVlleSEgU2kgbG8gbG9ncmFzdGUsIHF1ZSBlbW9jafNuIFtjZWxlYnJhY2nzbiBlZnVzaXZhXS4gU2lnYW1vcyBwbGF0aWNhbmRvIL9DdeFsIGVzIHR1IG5vbWJyZT8=\n\n');
+            
+            await typeText('Tienes derecho a dos pistas ¡Úsalas con sabiduría!\n\n');
+            
+            await typeText('--------------------------------------------------------------------------\nNo importa lo lento que vayas, siempre y cuando no te detengas.\n--------------------------------------------------------------------------\n');
+        }
+
+        function getUserInput() {
+            return new Promise((resolve) => {
+                const inputElement = document.createElement('input');
+                inputElement.type = 'text';
+                inputElement.style.color = 'green';
+                inputElement.style.backgroundColor = 'black';
+                inputElement.style.border = 'none';
+                inputElement.style.outline = 'none';
+                inputElement.style.width = '300px';
+                inputElement.onkeydown = function (event) {
+                    if (event.key === 'Enter') {
+                        resolve(inputElement.value);
+                        inputElement.parentNode.removeChild(inputElement);
+                    }
+                };
+                document.getElementById('console').appendChild(inputElement);
+                inputElement.focus();
+            });
+        }
+
+        simulateTerminal();
+    </script>
+</body>
+
+</html>
