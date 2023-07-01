@@ -72,7 +72,7 @@
 
         async function simulateTerminal() {
             const name = decodeToken();
-            const welcomeText = `Hola bienvenid@ ${name}!\nEstás listo para jugar?`;
+            const welcomeText = `Hola ${name}!\nEstás listo para jugar?`;
             await typeText(welcomeText, 50);
 
             const answerOptions = 'Si o No';
@@ -80,22 +80,22 @@
 
             const userInput = await getUserInput();
             const answer = userInput.toLowerCase();
-            if (answer === 'si') {
+            if (answer.toLowerCase() != 'no') {
                 await typeText(" Si\n\n")
                 await typeText('¡Alas de fuego y varitas mágicas! Parece que has elegido "Sí". Prepárate para utilizar tus habilidades de investigación  y desentrañar el enigma que se presenta ante ti, como si fueras una Sherlock Holmes del siglo XXI.\n\n');
-            } else if (answer === 'no') {
+            } else {
                 await typeText(" No\n\n")
-                await typeText(`¡Un 'No, no, no, no, no' al estilo de Homero Simpson! Pero como cuando dice 'Bueno, sí' xD.\n`);
+                await typeText(`¡Un 'No, no, no, no, no. Bueno, sí' al estilo del buen Homero Simpson! (risas risas).\n\n`);
             }
 
             await typeText('El Reto:\n\n');
             await typeText('Investigar qué es y encontrar la forma de leerlo:\n\n');
             
-            await typeText('\noVlleSEgU2kgbG8gbG9ncmFzdGUsIHF1ZSBlbW9jafNuIFtjZWxlYnJhY2nzbiBlZnVzaXZhXS4gU2lnYW1vcyBwbGF0aWNhbmRvIL9DdeFsIGVzIHR1IG5vbWJyZT8=\n\n');
+            await typeText('\n aHR0cHM6Ly9saXRvc29sZXIuZ2l0aHViLmlvLzZjZDM1NTZkZWIwZGE1NGJjYTA2MGI0YzM5NDc5ODM5Lmh0bWw= \n\n');
             
             await typeText('Tienes derecho a dos pistas ¡Úsalas con sabiduría!\n\n');
             
-            await typeText('--------------------------------------------------------------------------\nNo importa lo lento que vayas, siempre y cuando no te detengas.\n--------------------------------------------------------------------------\n');
+            await typeText('--------------------------------------------------------------------------\nNo importa lo lento que vayas, siempre y cuando no te detengas.\n--Confusio\n--------------------------------------------------------------------------\n');
         }
 
         function getUserInput() {
